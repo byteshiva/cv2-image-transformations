@@ -65,7 +65,7 @@ class ImageProcessor:
         cv2_imshow(self.img)
 
 IMG_DIR="./img/"
-IMG_SOURCE=IMG_DIR + 'example.jpg'
+IMG_SOURCE=IMG_DIR + 'example2.jpg'
 IMG_OUTPUT_NPY=IMG_DIR + 'example.npy'
 
 IMG_OUTPUT_PROCESSED=IMG_DIR + 'example_processed.jpg'
