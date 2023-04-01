@@ -45,11 +45,17 @@ class FaceRecognizer:
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
+
+IMG_DIR="./img/"
+IMG_SRC_PERSON1=IMG_DIR + "person1.png"
+IMG_SRC_PERSON2=IMG_DIR + "person2.png"
+IMG_SRC_PEOPLES=IMG_DIR + "peoples.jpg"
+
 # Example usage
 known_faces = {
-    "Person 1": face_recognition.face_encodings(face_recognition.load_image_file("person1.png"))[0],
-    "Person 2": face_recognition.face_encodings(face_recognition.load_image_file("person2.png"))[0]
+    "Person 1": face_recognition.face_encodings(face_recognition.load_image_file(IMG_SRC_PERSON1))[0],
+    "Person 2": face_recognition.face_encodings(face_recognition.load_image_file(IMG_SRC_PERSON2))[0]
 }
 
 face_recognizer = FaceRecognizer(known_faces, unknown_color=(0, 0, 128))  # specify blue for unknown faces
-face_recognizer.recognize_faces("peoples.jpg")
+face_recognizer.recognize_faces(IMG_SRC_PEOPLES)
