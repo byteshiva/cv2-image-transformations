@@ -64,38 +64,42 @@ class ImageProcessor:
         # Display the image
         cv2_imshow(self.img)
 
+IMG_DIR="./img/"
+IMG_SOURCE=IMG_DIR + 'example.jpg'
+IMG_OUTPUT_NPY=IMG_DIR + 'example.npy'
+
+IMG_OUTPUT_PROCESSED=IMG_DIR + 'example_processed.jpg'
 
 # Create an instance of the ImageProcessor class
-img_processor = ImageProcessor('example.jpg')
+img_processor = ImageProcessor(IMG_SOURCE)
 
 # Save the image as a numpy array and delete the original image
-img_processor.save_numpy_array('example.npy')
+img_processor.save_numpy_array(IMG_OUTPUT_NPY)
 # img_processor.delete_image()
 
 # Load the numpy array and convert it back to an image
-img_processor.load_numpy_array('example.npy')
+img_processor.load_numpy_array(IMG_OUTPUT_NPY)
 img_processor.convert_to_image()
 
 # Create a new instance of the ImageProcessor class
-img_processor_rotate = ImageProcessor('example.jpg')
+img_processor_rotate = ImageProcessor(IMG_SOURCE)
 img_processor_rotate.rotate(90)
 img_processor_rotate.show_image()
 
 # Create another new instance of the ImageProcessor class
-img_processor_flip = ImageProcessor('example.jpg')
+img_processor_flip = ImageProcessor(IMG_SOURCE)
 img_processor_flip.flip_horizontal()
 img_processor_flip.show_image()
 
 # Create yet another new instance of the ImageProcessor class
-img_processor_resize = ImageProcessor('example.jpg')
+img_processor_resize = ImageProcessor(IMG_SOURCE)
 img_processor_resize.resize(500, 500)
 img_processor_resize.show_image()
 
 # Create another new instance of the ImageProcessor class
-img_processor_blur = ImageProcessor('example.jpg')
-img_processor_blur.blur(5)
+img_processor_blur = ImageProcessor(IMG_SOURCE)
+img_processor_blur.blur(15)
 img_processor_blur.show_image()
 
 # Save the final image
-img_processor.save_image('example_processed.jpg')
-
+img_processor.save_image(IMG_OUTPUT_PROCESSED)
