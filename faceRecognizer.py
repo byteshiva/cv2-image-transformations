@@ -47,7 +47,7 @@ class FaceRecognizer:
             scale_factor = min(max_width/image.shape[1], max_height/image.shape[0])
             new_width = int(image.shape[1] * scale_factor)
             new_height = int(image.shape[0] * scale_factor)
-            image = cv2.resize(image, (new_width, new_height))
+        #   image = cv2.resize(image, (new_width, new_height))
 
         # Label the faces in the image
         labeled_image = self.label_faces(image)
