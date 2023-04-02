@@ -1,9 +1,9 @@
 import cv2
-from typing import Dict
 import face_recognition
-from google.colab.patches import cv2_imshow
 import numpy as np
 from typing import Dict, List, Tuple
+from PIL import Image
+
 
 class FaceRecognizer:
     def __init__(self, known_faces: Dict[str, face_recognition.face_encodings], unknown_color: Tuple[int,int,int]=(0,0,255)):
@@ -38,24 +38,35 @@ class FaceRecognizer:
 
         return image
 
-    def recognize_faces(self, image_path: str) -> None:
+    def recognize_faces(self, image_path: str, output_path: str, max_width: int = 800, max_height: int = 800) -> None:
+        # Load the image
         image = cv2.imread(image_path)
+
+        # Reduce the image size if it exceeds the max width or height
+        if image.shape[0] > max_height or image.shape[1] > max_width:
+            scale_factor = min(max_width/image.shape[1], max_height/image.shape[0])
+            new_width = int(image.shape[1] * scale_factor)
+            new_height = int(image.shape[0] * scale_factor)
+            image = cv2.resize(image, (new_width, new_height))
+
+        # Label the faces in the image
         labeled_image = self.label_faces(image)
-        cv2_imshow(labeled_image)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
 
+        # Save the labeled image
+        labeled_image = Image.fromarray(cv2.cvtColor(labeled_image, cv2.COLOR_BGR2RGB))
+        labeled_image.save(output_path)
 
-IMG_DIR="./img/"
-IMG_SRC_PERSON1=IMG_DIR + "person1.png"
-IMG_SRC_PERSON2=IMG_DIR + "person2.png"
-IMG_SRC_PEOPLES=IMG_DIR + "peoples.jpg"
 
 # Example usage
+IMG_DIR = "./img/"
+IMG_SRC_PERSON1 = IMG_DIR + "person1.png"
+IMG_SRC_PERSON2 = IMG_DIR + "person2.png"
+IMG_SRC_PEOPLES = IMG_DIR + "peoples.jpg"
+IMG_LABElED_PEOPLES = IMG_DIR + "labeled_peoples.jpg"
+
 known_faces = {
     "Person 1": face_recognition.face_encodings(face_recognition.load_image_file(IMG_SRC_PERSON1))[0],
     "Person 2": face_recognition.face_encodings(face_recognition.load_image_file(IMG_SRC_PERSON2))[0]
 }
 
-face_recognizer = FaceRecognizer(known_faces, unknown_color=(0, 0, 128))  # specify blue for unknown faces
-face_recognizer.recognize_faces(IMG_SRC_PEOPLES)
+face_recognizer = FaceRecognizer(known_faces, unknown_color=(0, 0, 128))  #
