@@ -70,3 +70,4 @@ known_faces = {
 }
 
 face_recognizer = FaceRecognizer(known_faces, unknown_color=(0, 0, 128))  #
+face_recognizer.recognize_faces(IMG_SRC_PEOPLES, IMG_LABElED_PEOPLES)
