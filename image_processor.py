@@ -10,30 +10,32 @@ class ImageProcessor:
         self.load_image()
     
     def load_image(self):
-        # Load the image
+        # Load the image and resize it
         self.img = cv2.imread(self.filename)
+        self.img = cv2.resize(self.img, (640, 480))
         
     def save_numpy_array(self, filepath):
-        # Convert the image to a numpy array
-        self.img_array = np.array(self.img)
-        # Save the numpy array to disk
-        np.save(filepath, self.img_array)
+        # Convert the image to a numpy array and save it
+        img_array = cv2.resize(self.img, (128, 96))
+        np.save(filepath, img_array)
     
     def delete_image(self):
         # Delete the original image
         os.remove(self.filename)
     
     def load_numpy_array(self, filepath):
-        # Load the numpy array from disk
-        self.img_array = np.load(filepath)
+        # Load the numpy array from disk and resize it
+        img_array = np.load(filepath)
+        self.img = cv2.resize(img_array, (640, 480))
     
     def convert_to_image(self):
         # Convert the numpy array back to an image
-        self.img = cv2.cvtColor(self.img_array, cv2.COLOR_RGB2BGR)
+        self.img = cv2.cvtColor(self.img, cv2.COLOR_RGB2BGR)
     
     def save_image(self, filename):
-        # Save the image to disk
-        cv2.imwrite(filename, self.img)
+        # Save the image to disk and resize it
+        img_resized = cv2.resize(self.img, (1280, 960))
+        cv2.imwrite(filename, img_resized)
     
     def rotate(self, angle):
         # Rotate the image by the specified angle
@@ -81,25 +83,25 @@ img_processor.save_numpy_array(IMG_OUTPUT_NPY)
 img_processor.load_numpy_array(IMG_OUTPUT_NPY)
 img_processor.convert_to_image()
 
-# Create a new instance of the ImageProcessor class
+# Create a new instance of the ImageProcessor class and rotate the image
 img_processor_rotate = ImageProcessor(IMG_SOURCE)
 img_processor_rotate.rotate(90)
 img_processor_rotate.show_image()
 
-# Create another new instance of the ImageProcessor class
+# Create another new instance of the ImageProcessor class and flip the image horizontally
 img_processor_flip = ImageProcessor(IMG_SOURCE)
 img_processor_flip.flip_horizontal()
 img_processor_flip.show_image()
 
-# Create yet another new instance of the ImageProcessor class
+# Create yet another new instance of the Image class and resize the image 
 img_processor_resize = ImageProcessor(IMG_SOURCE)
-img_processor_resize.resize(500, 500)
+img_processor_resize.resize(800, 600)
 img_processor_resize.show_image()
 
-# Create another new instance of the ImageProcessor class
+# Create yet another new instance of the Image class and blur the image 
 img_processor_blur = ImageProcessor(IMG_SOURCE)
-img_processor_blur.blur(15)
+img_processor_blur.blur(7)
 img_processor_blur.show_image()
 
-# Save the final image
-img_processor.save_image(IMG_OUTPUT_PROCESSED)
+img_processor_resize.save_image(IMG_OUTPUT_PROCESSED)
+img_processor_resize.show_image()
